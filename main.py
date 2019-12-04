@@ -7,6 +7,12 @@ from stockfish import Stockfish
 from model import SimpleNet, load_input, train, predict_piece
 from preprocess import get_image, get_chessboard, get_patches
 
+'''
+command line arguments:
+-turn or -t specifies the whos turn it is. Use b or w to specify if it is black or white's move
+-path or -p specifies the image path. there are a few images included in test for you to run without any tuning.
+'''
+
 parser = ArgumentParser(description="Bufferbloat tests")
 parser.add_argument('--turn', '-t',
                     type=str,
@@ -25,7 +31,7 @@ piece_class = {'0': 'b', '1': ' ', '2': 'k', '3': 'n', '4': 'p', '5': 'q', '6': 
 def get_positions(piece_predictions):
     num_board = np.array(piece_predictions).reshape(8, 8)
     fen_board = [[' ' for i in range(num_board.shape[1])] for i in range(num_board.shape[0])]
-    print(num_board)
+    # print(num_board)
     for i in range(num_board.shape[0]):
         for j in range(num_board.shape[1]):
             fen_board[i][j] = piece_class[str(int(num_board[i, j]))]
@@ -76,22 +82,24 @@ if __name__ == "__main__":
     # train(model, training_set, epochs = 25)
     # torch.save(model.state_dict(), 'assets/model.h5')
 
-    # screenshot = get_image('assets/test/Untitled6.png')
-    screenshot = get_image(args.path)
+    image = get_image(args.path)
 
-    board, x_indices, y_indices = get_chessboard(screenshot, threshold = 280)
+    board, x_indices, y_indices = get_chessboard(image, threshold = 280)
+
+    cv2.imwrite('out/board.jpg', board)
 
     patches = get_patches(board, x_indices, y_indices)
     piece_predictions = predict_piece(model, patches)
     fen_board = get_positions(piece_predictions)
 
-    fen = get_color(patches, fen_board)
-    print(fen)
-    fen = board_to_fen(fen, turn = args.turn)   
-    print(fen)
+    fen_board = get_color(patches, fen_board)
+    print(np.array(fen_board))
+    fen = board_to_fen(fen_board, turn = args.turn)
+    print(np.array(fen))
 
     '''
-    The sift stuff we had before we decided to scrap it. Look at sift.py to see what it did.
+    The sift stuff we had before we decided to scrap it. Look at sift.py to see what it did. The code below was written in colab and most likely
+    will not run anymore; it is just here to look at.
     '''
     # pieces_dict = load_train_data()
     # patches = get_patches(board, x_indices, y_indices)
