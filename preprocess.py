@@ -6,6 +6,9 @@ This file contains all the code necessary for preprocessing a screenshot
 '''
 
 def get_image(image_path):
+    '''
+    load the image from the image path and resizes the image.
+    '''
     image = cv2.imread(image_path)
 
     # here we assume that the image is going to be roughly square or that it will be wider than it is longer
@@ -19,6 +22,9 @@ def get_image(image_path):
     return image
 
 def get_lines_from_image(image, threshold = 210):
+    '''
+    load the image, calculates the canny edge. Take the canny edge and perform hough lines to find the prominent lines in the image
+    '''
     line_image = image.copy()
     edges = cv2.Canny(line_image,50,150,apertureSize = 3)
     cv2.imwrite('out/cannyedge.jpg', edges)
@@ -69,7 +75,7 @@ def get_lines_by_orientation(lines):
 
 def prune_lines(lines):
     '''
-    Prunes a set of lines to 7 in consistent increasing order (chessboard)
+    Prunes a set of lines to 7 in consistent increasing order (chessboard). Keep the lines that are evenly spaced apart
     '''
     diff = np.diff(lines)
     x, count = 0, 0
@@ -91,6 +97,10 @@ def prune_lines(lines):
     # return None
 
 def get_chessboard(image, threshold = 250):
+    '''
+    Function called in main.py that will take the image and returns the board with the x and y indices for the board. There should be
+    eight x_indices and eight y_indices. The looping through the x_indices and y_indices should create 64 patches.
+    '''
     lines = get_lines_from_image(image, threshold = threshold)
     horizontals, verticals = get_lines_by_orientation(lines)
     board_verticals = prune_lines(verticals)
@@ -101,12 +111,12 @@ def get_chessboard(image, threshold = 250):
     x_indices = [x - start_x for x in board_verticals]    #indices relative to the new boards indices
     y_indices = [y - start_y for y in board_horizontals]
     cv2.imwrite('out/board.jpg', board)
-    
+
     return board, x_indices, y_indices
 
 def get_patches(board, x_indices, y_indices):
     '''
-    get the image patches of the board and returns them
+    get the board and the indices to generate patches. The looping through the x_indices and y_indices should create 64 patches.
     '''
     patches = []
     for i in range(len(y_indices) - 1):
