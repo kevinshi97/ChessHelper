@@ -43,6 +43,8 @@ And if running on a Linux:
 stockfish = Stockfish('assets/stockfish/Linux/stockfish_10_x64')        # for linux 64 bit
 ```
 
+The windows binary has definetly been tested so that one should definetly work if the others don't
+
 ## Demo
 
 Here are a few command line inputs for you to run to as a demo:
