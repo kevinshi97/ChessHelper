@@ -100,7 +100,8 @@ def get_chessboard(image, threshold = 250):
     board = image[start_y:end_y, start_x:end_x]
     x_indices = [x - start_x for x in board_verticals]    #indices relative to the new boards indices
     y_indices = [y - start_y for y in board_horizontals]
-
+    cv2.imwrite('out/board.jpg', board)
+    
     return board, x_indices, y_indices
 
 def get_patches(board, x_indices, y_indices):
