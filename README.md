@@ -1,5 +1,8 @@
 # Chess Helper
 
+Kevin Shi
+Xiqian Liu
+
 ## Packages NEEDED
 
 The following python packages are needed to run this code:
