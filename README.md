@@ -1,7 +1,6 @@
 # Chess Helper
 
-Kevin Shi
-Xiqian Liu
+Kevin Shi, Xiqian Liu
 
 ## Packages NEEDED
 
