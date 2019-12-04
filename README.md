@@ -6,7 +6,7 @@ Kevin Shi, Xiqian Liu
 
 The following python packages are needed to run this code:
 
-- pytorch: `pip install pytorch`
+- pytorch: `pip3 install torch===1.3.1 torchvision===0.4.2 -f https://download.pytorch.org/whl/torch_stable.html`
 - opencv: `pip install opencv-python`
 - stockfish: `pip install stockfish`
 
